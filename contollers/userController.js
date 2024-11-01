@@ -2,7 +2,7 @@ const { query } = require('express');
 const { dbPool } = require('../config/dbConn');
 
 const getAllUsers = async (req, res) => {
-    const query = "Select * from users";
+    const query = "Select * from users_mysql2";
     let dbConn;
 
     try{
@@ -25,7 +25,7 @@ const getOneUser = async (req, res) => {
         return res.status(400).send("Data missing!");
     }
 
-    const query = "select * from users where email = ?";
+    const query = "select * from users_mysql2 where email = ?";
     let dbConn;
 
     try {
@@ -50,7 +50,7 @@ const createUser = async (req, res) => {
         return res.status(400).send('Data missing!');
     }
 
-    const query = "insert into users (firstName, lastName, email, age) values (?, ?, ?, ?)";
+    const query = "insert into users_mysql2 (firstName, lastName, email, age) values (?, ?, ?, ?)";
     let dbConn;
 
     try{
@@ -82,7 +82,7 @@ const updateUser = async(req, res) => {
 
     const values = Object.values(updates);
 
-    const query = `update users set ${setClause} where email = ?`;
+    const query = `update users_mysql2 set ${setClause} where email = ?`;
     let dbConn;
 
     try{
@@ -110,7 +110,7 @@ const deleteUser = async (req, res) => {
         return res.status(400).send("User credentials missing");    
     }
 
-    const query = "delete from users where email = ?";
+    const query = "delete from users_mysql2 where email = ?";
     let dbConn;
 
     try{

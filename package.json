@@ -1,5 +1,5 @@
 {
-  "name": "express-with-mysql",
+  "name": "express-with-mysql2",
   "version": "1.0.0",
   "description": "Practice MySQL in ExpressJS Project",
   "main": "server.js",

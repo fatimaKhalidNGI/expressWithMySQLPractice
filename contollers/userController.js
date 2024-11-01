@@ -20,17 +20,17 @@ const getAllUsers = async (req, res) => {
 }
 
 const getOneUser = async (req, res) => {
-    const { email } = req.params;
-    if(!email){
+    const { id } = req.params;
+    if(!id){
         return res.status(400).send("Data missing!");
     }
 
-    const query = "select * from users_mysql2 where email = ?";
+    const query = "select * from users_mysql2 where id = ?";
     let dbConn;
 
     try {
         dbConn = await dbPool.getConnection();
-        let [result] = await dbConn.execute(query, [email]);
+        let [result] = await dbConn.execute(query, [id]);
 
         res.status(200).send(result);
         
@@ -69,10 +69,10 @@ const createUser = async (req, res) => {
 }
 
 const updateUser = async(req, res) => {
-    const { email } = req.params;
+    const { id } = req.params;
     const updates = req.body;
     
-    if(!email || !updates || Object.keys(updates).length === 0){
+    if(!id || !updates || Object.keys(updates).length === 0){
         return res.status(400).send("Data incomplete. Cannot update user");
     }
 
@@ -82,12 +82,12 @@ const updateUser = async(req, res) => {
 
     const values = Object.values(updates);
 
-    const query = `update users_mysql2 set ${setClause} where email = ?`;
+    const query = `update users_mysql2 set ${setClause} where id = ?`;
     let dbConn;
 
     try{
         dbConn = await dbPool.getConnection();
-        const [result] = await dbConn.execute(query, [...values, email]);
+        const [result] = await dbConn.execute(query, [...values, id]);
 
         if(result.affectedRows === 0){
             return res.status(404).send("No user found and updated");
@@ -105,18 +105,18 @@ const updateUser = async(req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    const { email } = req.params;
-    if(!email){
+    const { id } = req.params;
+    if(!id){
         return res.status(400).send("User credentials missing");    
     }
 
-    const query = "delete from users_mysql2 where email = ?";
+    const query = "delete from users_mysql2 where id = ?";
     let dbConn;
 
     try{
         dbConn = await dbPool.getConnection();
 
-        const [result] = await dbConn.execute(query, [ email ]);
+        const [result] = await dbConn.execute(query, [ id ]);
         res.status(200).send("User deleted successfully");
 
     } catch(error){
